@@ -4,7 +4,7 @@ $dbh=new PDO(DSN);
 $schema="iol";
 $server = new nusoap_server; 
 $server->soap_defencoding = 'UTF-8';
-$server->configureWSDL('praticaweb', 'http://195.88.6.158/webservices/sanremo.wsPraticawebBase.php?wsdl');
+$server->configureWSDL('praticaweb', 'http://webservice.gisweb.it/wspraticaweb/savona.wsPraticawebBase.php?wsdl');
 
 
 $server->wsdl->addSimpleType('tipopratica','xsd:string','SimpleType','scalar',array_keys($tipoPratica));

@@ -3,7 +3,7 @@ require_once DIR."lib/nusoap/nusoap.php";
 $schema="iol";
 $server = new nusoap_server; 
 $server->soap_defencoding = 'UTF-8';
-$server->configureWSDL('praticaweb', 'http://195.88.6.158/webservices/sanremo.wsPraticaweb.php?wsdl');
+$server->configureWSDL('praticaweb', 'http://webservices.gisweb.it/wspraticaweb/savona.wsPraticaweb.php?wsdl');
 
 
 $server->wsdl->addSimpleType('tipopratica','xsd:string','SimpleType','scalar',array_keys($tipoPratica));
