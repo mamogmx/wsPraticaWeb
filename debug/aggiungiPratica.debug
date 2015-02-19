@@ -1,0 +1,70 @@
+------- DEBUG DEL 19/02/2015 03:59:14 -------
+Array
+(
+    [tipo] => 21100
+    [intervento] => 1
+    [oggetto] => sad
+    [note] => 
+    [data_presentazione] => 15/12/2014
+    [protocollo] => 
+    [data_prot] => 
+    [resp_proc] => 
+)
+
+-------------------------
+------- DEBUG DEL 19/02/2015 04:01:01 -------
+Array
+(
+    [tipo] => 21200
+    [intervento] => 1
+    [oggetto] => sad
+    [note] => gggg
+    [data_presentazione] => 13/12/2014
+    [protocollo] => 
+    [data_prot] => 
+    [resp_proc] => 
+)
+
+-------------------------
+------- DEBUG DEL 19/02/2015 04:01:56 -------
+Array
+(
+    [tipo] => 21200
+    [intervento] => 1
+    [oggetto] => sad
+    [note] => gggg
+    [data_presentazione] => 13/12/2014
+    [protocollo] => 32456
+    [data_prot] => 16/12/2014
+    [resp_proc] => 
+)
+
+-------------------------
+------- DEBUG DEL 19/02/2015 04:31:46 -------
+Array
+(
+    [tipo] => 21200
+    [intervento] => 1
+    [oggetto] => sad
+    [note] => gggg
+    [data_presentazione] => 13/12/2014
+    [protocollo] => 32456
+    [data_prot] => 16/12/2014
+    [resp_proc] => 
+)
+
+-------------------------
+------- DEBUG DEL 19/02/2015 04:33:06 -------
+Array
+(
+    [tipo] => 21200
+    [intervento] => 1
+    [oggetto] => sad
+    [note] => gggg
+    [data_presentazione] => 13/12/2014
+    [protocollo] => 32456
+    [data_prot] => 16/12/2014
+    [resp_proc] => 
+)
+
+-------------------------

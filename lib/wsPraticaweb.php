@@ -3,7 +3,7 @@ require_once DIR."lib/nusoap/nusoap.php";
 $schema="iol";
 $server = new nusoap_server; 
 $server->soap_defencoding = 'UTF-8';
-$server->configureWSDL('praticaweb', 'http://webservices.gisweb.it/wspraticaweb/savona.wsPraticaweb.php?wsdl');
+$server->configureWSDL('praticaweb', 'http://webservice.gisweb.it/wspraticaweb/savona.wsPraticaweb.php?wsdl');
 
 
 $server->wsdl->addSimpleType('tipopratica','xsd:string','SimpleType','scalar',array_keys($tipoPratica));
@@ -63,7 +63,6 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
         )
 );
 
-$server->wsdl->addComplexType('soggetti','simpleType','array','all','',Array("soggetti"=>Array("name"=>"soggetto","type"=>"tns:soggetto")));
 $server->wsdl->addComplexType('particella','simpleType','array','struct','',Array(
         "sezione"=>Array("name"=>"sezione","type"=>"xsd:string"),
         "foglio"=>Array("name"=>"foglio","type"=>"xsd:string"),
@@ -71,9 +70,6 @@ $server->wsdl->addComplexType('particella','simpleType','array','struct','',Arra
         "sub"=>Array("name"=>"sub","type"=>"xsd:string")
     )
 );
-$server->wsdl->addComplexType('particelleterreni','simpleType','array','all','',Array("particella"=>Array("name"=>"particella","type"=>"tns:particella")));
-$server->wsdl->addComplexType('particelleurbano','simpleType','array','all','',Array("particella"=>Array("name"=>"particella","type"=>"tns:particella")));
-
 $server->wsdl->addComplexType('indirizzo','simpleType','array','struct','',Array(
         "sezione"=>Array("name"=>"via","type"=>"xsd:string"),
         "foglio"=>Array("name"=>"civico","type"=>"xsd:string"),
@@ -81,7 +77,11 @@ $server->wsdl->addComplexType('indirizzo','simpleType','array','struct','',Array
         
     )
 );
-$server->wsdl->addComplexType('indirizzi','simpleType','array','all','',Array("particella"=>Array("name"=>"indirizzo","type"=>"tns:indirizzo")));
+
+$server->wsdl->addComplexType('particelleterreni','simpleType','array','all','',Array("particella"=>Array("name"=>"particella","type"=>"tns:particella")));
+$server->wsdl->addComplexType('particelleurbano','simpleType','array','all','',Array("particella"=>Array("name"=>"particella","type"=>"tns:particella")));
+$server->wsdl->addComplexType('soggetti','simpleType','array','all','',Array("soggetti"=>Array("name"=>"soggetto","type"=>"tns:soggetto")));
+$server->wsdl->addComplexType('indirizzi','simpleType','array','all','',Array("indirizzo"=>Array("name"=>"indirizzo","type"=>"tns:indirizzo")));
 $server->wsdl->schemaTargetNamespace = 'urn:praticaweb';
 
 $server->register('aggiungiPratica',
@@ -190,7 +190,7 @@ $server->register('rimuoviSoggetto',
 $server->register('aggiungiParticellaTerreni',
     Array(
         "pratica"=>"xsd:int",
-        "particella"=>"tsn:particellaterreni"
+        "particella"=>"tsn:particelleterreni"
     ),
     Array(
         "success"=>"xsd:int",
@@ -205,7 +205,7 @@ $server->register('aggiungiParticellaTerreni',
 $server->register('rimuoviParticellaTerreni',
     Array(
         "pratica"=>"xsd:int",
-        "particella"=>"tsn:particellaterreni"
+        "particella"=>"tsn:particelleterreni"
     ),
     Array(
         "success"=>"xsd:int",
@@ -220,7 +220,7 @@ $server->register('rimuoviParticellaTerreni',
 $server->register('aggiungiParticellaUrbano',
     Array(
         "pratica"=>"xsd:int",
-        "particella"=>"tsn:particellaurbano"
+        "particella"=>"tsn:particelleurbano"
     ),
     Array(
         "success"=>"xsd:int",
@@ -235,7 +235,7 @@ $server->register('aggiungiParticellaUrbano',
 $server->register('rimuoviParticellaUrbano',
     Array(
         "pratica"=>"xsd:int",
-        "particella"=>"tsn:particellaurbano"
+        "particella"=>"tsn:particelleurbano"
     ),
     Array(
         "success"=>"xsd:int",
