@@ -377,6 +377,20 @@ $server->register('elencoAllegati',
     'encoded',
     'Metodo che restituisce elenco allegati disponibili online'
 );
+
+$server->register('elencoVie',
+    Array(),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"xsd:string",
+        "result"=>"tns:elenco"
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#listTipoPratica',
+    'rpc',
+    'encoded',
+    'Metodo che restituisce elenco allegati disponibili online'
+);
 //require_once DIR.'lib/wsFunction.savona.php';
 require_once "../config/savona.config.php";
 require_once DIR."lib/utils.php";
@@ -527,6 +541,11 @@ function elencoTipoPratica(){
 function elencoAllegati(){
     $ws = new wsApp(DSN);
     return Array("success"=>1,"message"=>"","result"=>$ws->elencoAllegati());
+}
+
+function elencoVie(){
+    $ws = new wsApp(DSN);
+    return Array("success"=>1,"message"=>"","result"=>$ws->elencoVie());
 }
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
 $server->service($HTTP_RAW_POST_DATA);

@@ -118,6 +118,18 @@ class ws {
         }
         return $result;
     }
+    
+    static function elencoVie(){
+        $res = self::execSelQuery("pe_vie", NULL, 1,'civici');
+        $result=Array();
+        if($res["success"]){
+            foreach($res["result"] as $k=>$v){
+                $result[]=Array("value"=>$v["id"],"label"=>$v["nome"]);
+            }
+        }
+        return $result;
+    }
+    
     static function elencoAllegati(){
         $res = self::execSelQuery("e_documenti", NULL, 1);
         $result=Array();
