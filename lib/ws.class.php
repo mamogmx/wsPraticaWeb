@@ -26,6 +26,7 @@ class ws {
         self::$result = Array("success"=>NULL,"message"=>NULL,"id"=>NULL,"time"=>NULL);
         self::$pratica=$pr;
         self::$projectParams = $params;
+        self::debug(self::debugDir."PARAMETRI.debug",self::$projectParams);
         self::init();
     }
     function __destruct() {
