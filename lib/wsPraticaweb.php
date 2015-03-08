@@ -64,6 +64,8 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
     "cciaprov"=>Array("name"=>"cciaprov","type"=>"xsd:string"),
     "cedile"=>Array("name"=>"cedile","type"=>"xsd:string"),
     "cedileprov"=>Array("name"=>"cedileprov","type"=>"xsd:string"),
+    "civico"=>Array("name"=>"civico","type"=>"xsd:string"),
+    "civicod"=>Array("name"=>"civicod","type"=>"xsd:string"),
     "codfis"=>Array("name"=>"codfis","type"=>"xsd:string"),
     "cognome"=>Array("name"=>"cognome","type"=>"xsd:string"),
     "collaudatore"=>Array("name"=>"collaudatore","type"=>"xsd:int"),
