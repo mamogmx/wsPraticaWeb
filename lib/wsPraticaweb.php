@@ -133,7 +133,8 @@ $server->wsdl->addComplexType('allegato','complexType','struct','all','',Array(
     "note" => Array("name"=>"note","type"=>"xsd:string"),
     "pratica" => Array("name"=>"pratica","type"=>"xsd:string"),
     "protocollo" => Array("name"=>"protocollo","type"=>"xsd:string"),
-    "sostituito" => Array("name"=>"sostituito","type"=>"xsd:string")
+    "sostituito" => Array("name"=>"sostituito","type"=>"xsd:string"),
+    "files" => Array("name" => "files","type" => "tns:file_allegati")
     )
 );
 
