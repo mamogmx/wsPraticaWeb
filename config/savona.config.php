@@ -1,6 +1,6 @@
 <?php
 $info = pathinfo(__FILE__);
-$dsn="pgsql:host=192.168.1.134;port=5433;dbname=gw_savona;user=postgres;password=postgres";
+$dsn="pgsql:host=127.0.0.1;port=5432;dbname=gw_savona;user=postgres;password=postgres";
 
 define('DIR',dirname($info['dirname']).DIRECTORY_SEPARATOR);
 define('LIB',DIR."lib".DIRECTORY_SEPARATOR);
