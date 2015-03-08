@@ -119,7 +119,7 @@ class ws {
         return $result;
     }
     static function elencoAllegati(){
-        $res = self::execSelQuery("e_tipopratica", NULL, 1);
+        $res = self::execSelQuery("e_documenti", NULL, 1);
         $result=Array();
         if($res["success"]){
             foreach($res["result"] as $k=>$v){
