@@ -118,6 +118,17 @@ class ws {
         }
         return $result;
     }
+    static function elencoAllegati(){
+        $res = self::execSelQuery("e_tipopratica", NULL, 1);
+        $result=Array();
+        if($res["success"]){
+            foreach($res["result"] as $k=>$v){
+                $label=($v["descrizione"])?($v["descrizione"]):($v["nome"]);
+                if ($v["online"]) $result[]=Array("value"=>$v["id"],"label"=>$label);
+            }
+        }
+        return $result;
+    }
     static function rand_str($length = 8, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'){
         // Length of character list
         $chars_length = (strlen($chars) - 1);
