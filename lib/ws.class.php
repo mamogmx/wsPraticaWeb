@@ -21,10 +21,11 @@ class ws {
     const schema = "pe";
     const debugDir = "../debug/";
     
-    function __construct($dsn,$pr=NULL) {
+    function __construct($dsn,$pr=NULL,$params) {
         self::$dbh = new PDO($dsn);
         self::$result = Array("success"=>NULL,"message"=>NULL,"id"=>NULL,"time"=>NULL);
         self::$pratica=$pr;
+        self::$projectParams = $params;
         self::init();
     }
     function __destruct() {
