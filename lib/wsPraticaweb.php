@@ -83,6 +83,7 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
     "economia_diretta"=>Array("name"=>"economia_diretta","type"=>"xsd:boolean"),
     "email"=>Array("name"=>"email","type"=>"xsd:string"),
     "esecutore"=>Array("name"=>"esecutore","type"=>"xsd:boolean"),
+    "fax"=>Array("name"=>"fax","type"=>"xsd:string"),
     "geologo"=>Array("name"=>"geologo","type"=>"xsd:boolean"),
     "inail"=>Array("name"=>"inail","type"=>"xsd:string"),
     "inailprov"=>Array("name"=>"inailprov","type"=>"xsd:string"),
