@@ -147,12 +147,12 @@ class wsApp extends ws{
         $this->baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
         
         if ($this->pratica){
-            self::setDirAllegati($this->pratica);
+            $this->setDirAllegati($this->pratica);
         }
     }
-    static function setDirAllegati($pr) {
+    function setDirAllegati($pr) {
         $arrDir = Array();
-        $res=self::execSelQuery("avvioproc", $pr);
+        $res=$this->execSelQuery("avvioproc", $pr);
         if($res["success"]){
             $info = $res["result"];
             $anno=$info["anno"];

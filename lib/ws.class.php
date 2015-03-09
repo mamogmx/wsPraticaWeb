@@ -33,10 +33,10 @@ class ws {
     function init(){
         
     }
-    static function setDirAllegati($pr){
+    function setDirAllegati($pr){
         
     }
-    static function makeDir($dir){
+    function makeDir($dir){
         $arrDir = explode(DIRECTORY_SEPARATOR,$dir);
         $dirAllegati = array_pop($arrDir);
         $dirPratica = array_pop($arrDir);
@@ -48,30 +48,30 @@ class ws {
         
         
     }
-    static function createDirAllegati(){
+    function createDirAllegati(){
         if ($this->allegatiDir){
-            self::makeDir($this->allegatiDir);
+            $this->makeDir($this->allegatiDir);
         }
         elseif($this->pratica){
-            self::setDirAllegati($this->pratica);
-            self::makeDir($this->allegatiDir);
+            $this->setDirAllegati($this->pratica);
+            $this->makeDir($this->allegatiDir);
         }
         else{
             
         }
     }
-    static function aggiungiPratica($d){
+    function aggiungiPratica($d){
         $table = "avvioproc";
         $tstart=  microtime();
         //self::debug(self::debugDir."PARAMS.debug",self::$projectParams);
-        self::debug(self::debugDir."PROCEDIMENTO.debug",$d);
+        $this->debug($this->debugDir."PROCEDIMENTO.debug",$d);
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
             $data[$key]=($d[$key])?($d[$key]):(null);
         }
         
-        $sql = self::createQuery($this->projectParams[$table]["table"]);
-        $res = self::execInsQuery($sql, $data,$this->projectParams[$table]["sequence"]);
+        $sql = $this->createQuery($this->projectParams[$table]["table"]);
+        $res = $this->execInsQuery($sql, $data,$this->projectParams[$table]["sequence"]);
         if ($res["success"]){
             $this->result["success"] = 1;
             $this->result["id"] = $res["id"];  
@@ -84,7 +84,7 @@ class ws {
         $this->result["time"]=  microtime() - $tstart;
         return $this->result;
     }
-    static function aggiungiRecord($pr,$d,$table){
+    function aggiungiRecord($pr,$d,$table){
         $tstart=  microtime();
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
@@ -92,8 +92,8 @@ class ws {
         }
         $data["pratica"] = $pr;
         
-        $sql = self::createQuery($this->projectParams[$table]["table"]);
-        $res = self::execInsQuery($sql, $data,$this->projectParams[$table]["sequence"]);
+        $sql = $this->createQuery($this->projectParams[$table]["table"]);
+        $res = $this->execInsQuery($sql, $data,$this->projectParams[$table]["sequence"]);
         if ($res["success"]){
             $this->result["success"] = 1;
             $this->result["id"] = $res["id"];  
@@ -110,8 +110,8 @@ class ws {
     public function aggiungiAllegato($pr,$d){
         
     }
-    static function elencoTipiPratica(){
-        $res = self::execSelQuery("e_tipopratica", NULL, 1);
+    function elencoTipiPratica(){
+        $res = $this->execSelQuery("e_tipopratica", NULL, 1);
         $result=Array();
         if($res["success"]){
             foreach($res["result"] as $k=>$v){
@@ -121,8 +121,8 @@ class ws {
         return $result;
     }
     
-    static function elencoVie(){
-        $res = self::execSelQuery("pe_vie", NULL, 1,'civici');
+    function elencoVie(){
+        $res = $this->execSelQuery("pe_vie", NULL, 1,'civici');
         $result=Array();
         if($res["success"]){
             foreach($res["result"] as $k=>$v){
@@ -132,8 +132,8 @@ class ws {
         return $result;
     }
     
-    static function elencoAllegati(){
-        $res = self::execSelQuery("e_documenti", NULL, 1);
+    function elencoAllegati(){
+        $res = $this->execSelQuery("e_documenti", NULL, 1);
         $result=Array();
         if($res["success"]){
             foreach($res["result"] as $k=>$v){
@@ -143,7 +143,7 @@ class ws {
         }
         return $result;
     }
-    static function rand_str($length = 8, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'){
+    function rand_str($length = 8, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'){
         // Length of character list
         $chars_length = (strlen($chars) - 1);
 
@@ -163,11 +163,11 @@ class ws {
         // Return the string
         return $string;
     }
-    static function now(){
+    function now(){
         return date('d/m/Y h:i:s', time());
     }
-    static function debug($file,$data,$mode='a+'){
-        $now=self::now();
+    function debug($file,$data,$mode='a+'){
+        $now=$this->now();
         $f=fopen($file,$mode);
 	ob_start();
         echo "------- DEBUG DEL $now -------\n";
@@ -177,21 +177,21 @@ class ws {
 	fwrite($f,$result."\n-------------------------\n");
 	fclose($f);
     }
-    static function createQuery($table){
+    function createQuery($table){
         foreach($this->projectParams["table"]["fields"] as $f){
             $keys[]=$f;
             $values[]=":$f";
         }
         $sql = "INSERT INTO %s.%s(%s) VALUES(%s)";
-        $sql = sprintf($sql,self::schema,$table,implode(",",$keys),implode(",",$values));
+        $sql = sprintf($sql,$this->schema,$table,implode(",",$keys),implode(",",$values));
         return $sql;    
         
     }
-    static function execInsQuery($sql,$prms,$seq=""){
+    function execInsQuery($sql,$prms,$seq=""){
         $stmt = $this->dbh->prepare($sql);
         if (!$stmt->execute($prms)){
             $errors=$stmt->errorInfo();
-            self::debug(utils::debugDir."error-SQL.debug", $errors);
+            $this->debug(utils::debugDir."error-SQL.debug", $errors);
             return Array("success" => 0,"errors" => $errors[2], "pk" => NULL);
         }
         else{
@@ -203,7 +203,8 @@ class ws {
             
         }
     }
-    static function execSelQuery($table,$v,$mode=0,$schema=self::schema){
+    function execSelQuery($table,$v,$mode=0,$schema=''){
+        if ($schema) $schema = $this->schema;
         if (!$mode){
             $sql = sprintf("SELECT * FROM %s.%s WHERE id=?;",$schema,$table,$v);
             
