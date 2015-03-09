@@ -30,7 +30,7 @@ class ws {
     function __destruct() {
         
     }
-    static function init(){
+    function init(){
         
     }
     static function setDirAllegati($pr){
