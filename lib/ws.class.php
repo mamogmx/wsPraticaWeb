@@ -21,18 +21,16 @@ class ws {
     const schema = "pe";
     const debugDir = "../debug/";
     
-    function __construct($dsn,$pr=NULL,$params) {
+    function __construct($dsn,$pr=NULL) {
         self::$dbh = new PDO($dsn);
         self::$result = Array("success"=>NULL,"message"=>NULL,"id"=>NULL,"time"=>NULL);
         self::$pratica=$pr;
-        self::$projectParams = $params;
-        self::debug(self::debugDir."PARAMETRI.debug",self::$projectParams);
         self::init();
     }
     function __destruct() {
         
     }
-    function init(){
+    static function init(){
         
     }
     static function setDirAllegati($pr){
