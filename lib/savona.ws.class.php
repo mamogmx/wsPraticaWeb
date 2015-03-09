@@ -144,7 +144,7 @@ class wsApp extends ws{
     }
     static function init(){
         $dir = Array("data","savona","pe","praticaweb","documenti","pe");
-        $this->baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
+        self::$baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
         
         if ($this->pratica){
             self::setDirAllegati($this->pratica);

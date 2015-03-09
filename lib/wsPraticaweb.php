@@ -9,8 +9,8 @@ $server->wsdl->addComplexType('elemento','complexType','struct','all','',Array(
     "value"=>Array("name"=>"value","type"=>"xsd:int"),
     "label"=>Array("name"=>"label","type"=>"xsd:string")
 ));
-$server->wsdl->addSimpleType('tipopratica','xsd:string','SimpleType','scalar',array_keys($tipoPratica));
-$server->wsdl->addSimpleType('tipointervento','xsd:string','SimpleType','scalar',array_keys($tipoIntervento));
+//$server->wsdl->addSimpleType('tipopratica','xsd:string','SimpleType','scalar',array_keys($tipoPratica));
+//$server->wsdl->addSimpleType('tipointervento','xsd:string','SimpleType','scalar',array_keys($tipoIntervento));
 
 $server->wsdl->addComplexType('procedimento','complexType','struct','all','',Array(
     "anno" => Array("name"=>"anno","type"=>"xsd:int"),
