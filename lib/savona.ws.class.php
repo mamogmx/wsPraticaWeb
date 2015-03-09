@@ -144,10 +144,10 @@ class wsApp extends ws{
     }
     static function init(){
         $dir = Array("data","savona","pe","praticaweb","documenti","pe");
-        self::$baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
+        $this->baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
         
-        if (self::$pratica){
-            self::setDirAllegati(self::$pratica);
+        if ($this->pratica){
+            self::setDirAllegati($this->pratica);
         }
     }
     static function setDirAllegati($pr) {
@@ -161,8 +161,8 @@ class wsApp extends ws{
             $d = sprintf("%s-%s",$protocollo,  substr($anno, 2, 2));
             $arrDir[] = $d;
             $arrDir[] = "allegati";
-            $dir = self::$baseDir.implode(DIRECTORY_SEPARATOR,$arrDir);
-            self::$allegatiDir = $dir;
+            $dir = $this->baseDir.implode(DIRECTORY_SEPARATOR,$arrDir);
+            $this->allegatiDir = $dir;
         }
         
     }
