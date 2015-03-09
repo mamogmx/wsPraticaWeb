@@ -3,10 +3,9 @@
 require_once "ws.class.php";
 class wsApp extends ws{
     function __construct($dsn,$pr=NULL) {
-        self::$dbh = new PDO($dsn);
-        self::$result = Array("success"=>NULL,"message"=>NULL,"id"=>NULL,"time"=>NULL);
-        self::$pratica=$pr;
-        self::$projectParams = Array(
+        parent::__construct($dsn);
+        $this->pratica=$pr;
+        $this->projectParams = Array(
             "avvioproc"=>Array(
                 "fields"=>Array(
                     "tipo","intervento","oggetto","note",
