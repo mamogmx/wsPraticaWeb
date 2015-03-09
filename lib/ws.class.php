@@ -18,12 +18,13 @@ class ws {
     var $projectParams;
     var $allegatiDir;
     var $baseDir;
-    const schema = "pe";
-    const debugDir = "../debug/";
+    var $schema = "pe";
+    var $debugDir = "../debug/";
     
     function __construct($dsn,$pr=NULL) {
         $this->dbh = new PDO($dsn);
         $this->result = Array("success"=>NULL,"message"=>NULL,"id"=>NULL,"time"=>NULL);
+
         
         
     }
