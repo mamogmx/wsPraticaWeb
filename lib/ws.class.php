@@ -179,7 +179,7 @@ class ws {
 	fclose($f);
     }
     function createQuery($table){
-        foreach($this->projectParams["table"]["fields"] as $f){
+        foreach($this->projectParams[$table]["fields"] as $f){
             $keys[]=$f;
             $values[]=":$f";
         }
@@ -205,7 +205,9 @@ class ws {
         }
     }
     function execSelQuery($table,$v,$mode=0,$schema=''){
-        if (!$schema) $schema = $this->schema;
+        if (!$schema) {
+            $schema = $this->schema;
+        }
         if (!$mode){
             $sql = sprintf("SELECT * FROM %s.%s WHERE id=?;",$schema,$table,$v);
             
