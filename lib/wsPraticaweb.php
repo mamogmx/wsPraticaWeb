@@ -405,7 +405,7 @@ require_once DIR."lib/utils.php";
 
 function aggiungiPratica($procedimento,$soggetti=Array(),$indirizzi=Array(),$ct=Array(),$cu=Array(),$allegati=Array()){
     //ISTANZIO L'OGGETTO WS APPROPRIATO
-    $ws = new wsApp(DSN,$savonaParams);
+    $ws = new wsApp(DSN);
     $ws->debug($ws::debugDir."OBJECT.debug",$ws);
     //INSERISCO UNA NUOVA PRATICA
     $r = $ws->aggiungiPratica($procedimento);
