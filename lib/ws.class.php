@@ -205,7 +205,7 @@ class ws {
         }
     }
     function execSelQuery($table,$v,$mode=0,$schema=''){
-        if ($schema) $schema = $this->schema;
+        if (!$schema) $schema = $this->schema;
         if (!$mode){
             $sql = sprintf("SELECT * FROM %s.%s WHERE id=?;",$schema,$table,$v);
             
