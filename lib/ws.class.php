@@ -87,6 +87,7 @@ class ws {
     }
     function aggiungiRecord($pr,$d,$table){
         $tstart=  microtime();
+        $this->debug($this->debugDir.strtoupper($table).".debug", $d);
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
             $data[$key]=($d[$key])?($d[$key]):(null);
