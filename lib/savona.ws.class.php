@@ -31,7 +31,7 @@ class wsApp extends ws{
                     "pec","piva","progettista","progettista_ca","proprietario","prov",
                     "provd","provnato","ragsoc","resp_abuso","richiedente","sede",
                     "sesso","sicurezza","telefono","titolo","titolod","titolod_note",
-                    "titolo_note","voltura"
+                    "titolo_note"
                 ),
                 "params" => Array(
                     "albo","albonumero","alboprov","app","cap","capd","ccia",
@@ -43,7 +43,7 @@ class wsApp extends ws{
                     "pec","piva","progettista","progettista_ca","proprietario","prov",
                     "provd","provnato","ragsoc","resp_abuso","richiedente","sede",
                     "sesso","sicurezza","telefono","titolo","titolod","titolod_note",
-                    "titolo_note","voltura"
+                    "titolo_note"
                 ),
                 "table"=>"soggetti",
                 "schema" => "pe",
@@ -84,10 +84,10 @@ class wsApp extends ws{
             ),
             "allegati"=>Array(
                 "fields"=>Array(
-                    "pratica","documento","note","protocollo","data_protocollo"
+                    "pratica","documento","note","protocollo","data_protocollo","allegato"
                 ),
                 "params"=>Array(
-                    "documento","note","protocollo","data_protocollo"
+                    "documento","note","protocollo","data_protocollo","allegato"
                 ),
                 "table"=> "allegati",
                 "schema"=>"pe",
@@ -130,14 +130,14 @@ class wsApp extends ws{
             ),
             "progetto"=>Array(
                 "fields"=>Array(
-
+                    "pratica","destuso1","tavole"
                 ),
                 "params"=>Array(
-
+                    "destuso1","tavole"
                 ),
-                "table"=> "",
-                "schema"=>"",
-                "sequence"=>""
+                "table"=> "progetto",
+                "schema"=>"pe",
+                "sequence"=>"pe.progetto_id_seq"
             )
         );
         $this->init();
@@ -148,6 +148,7 @@ class wsApp extends ws{
         
         if ($this->pratica){
             $this->setDirAllegati($this->pratica);
+            $this->createDirAllegati();
         }
     }
     function setDirAllegati($pr) {

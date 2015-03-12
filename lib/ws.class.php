@@ -65,7 +65,7 @@ class ws {
         $table = "avvioproc";
         $tstart=  microtime();
         //self::debug(self::debugDir."PARAMS.debug",self::$projectParams);
-        $this->debug($this->debugDir."PROCEDIMENTO.debug",$d);
+        
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
             $data[$key]=($d[$key])?($d[$key]):(null);
@@ -74,13 +74,16 @@ class ws {
         $sql = $this->createQuery($this->projectParams[$table]["table"]);
         $res = $this->execInsQuery($sql, $data,$this->projectParams[$table]["sequence"]);
         if ($res["success"]){
+            $pr = $this->execSelQuery("avvioproc", $res["id"], 0);
+            $this->debug($this->debugDir."RESULT.debug",$pr);
             $this->result["success"] = 1;
             $this->result["id"] = $res["id"];  
+            $this->result["numero"] = $pr["result"]["numero"];
             $this->result["message"] = "OK";
         }
         else{
             $this->result["success"] = 0; 
-            $this->result["message"] = $res["errors"];
+            $this->result["messages"] = $res["error"];
         }
         $this->result["time"]=  microtime() - $tstart;
         return $this->result;
@@ -100,17 +103,67 @@ class ws {
             $this->result["success"] = 1;
             $this->result["id"] = $res["id"];  
             $this->result["message"] = "OK";
+            $this->result["error"] = NULL;
         }
         else{
             $this->result["success"] = 0; 
-            $this->result["message"] = $res["errors"];
+            $this->result["message"] = NULL;
+            $this->result["error"] = $res["message"];
+            $this->result["id"] = NULL;
         }
         $this->result["time"]=  microtime() - $tstart;
         return $this->result;
     }
     
     public function aggiungiAllegato($pr,$d){
+        $r = $this->aggiungiRecord($pr,$d,"allegati");
+        if($r["id"]){
+            $fAllegati=$d["files"];
+            $result = Array(
+                "success"=>1,
+                "errors" => Array(),
+                "messages" => Array(),
+                "id" => $r["id"]
+            );
+            $cont = $err = 0;
+            for($i=0;$i<count($fAllegati);$i++){
+                $allegato = $fAllegati[$i];
+                $allegato["allegato"] = $r["id"];
+                $r1=$this->aggiungiRecord($pr,$allegato,"file_allegati");
+                if($r1["success"]){
+                    $text = $allegato["file"];
+                    $dir = $this->allegatiDir.DIRECTORY_SEPARATOR;
+                    
+                    $f =  fopen($dir.$allegato["nome_file"], 'w');
+                    if (!fwrite($f,  $text)){
+                        $err += 1;
+                        $err_message = "Impossibili scrivere il file ".$dir.$allegato["nome_file"];
+                        $this->debug($this->debugDir."FILE-ERROR.debug", $err_message);
+                        $this->result["errors"][] =  $err_message;
+                    }
+                    else{
+                        $cont += 1;
+                    }
+                    fclose($f);
+                }
+                else{
+                    $err += 1;
+                    $result["errors"][] = $r1["error"]; 
+                }
+            }
+        }
+        else{
+            $result = Array(
+                "success"=>0,
+                "errors" => Array($r["error"]),
+                "messages" => Array(),
+                "id" => NULL
+            );
+        }
         
+        $result["err"] = $err;
+        $result["cont"] = $cont;
+        return $result;
     }
     function elencoTipiPratica(){
         $res = $this->execSelQuery("e_tipopratica", NULL, 1);
@@ -129,6 +182,17 @@ class ws {
         if($res["success"]){
             foreach($res["result"] as $k=>$v){
                 $result[]=Array("value"=>$v["id"],"label"=>$v["nome"]);
+            }
+        }
+        return $result;
+    }
+    
+    function elencoDestUso(){
+        $res = $this->execSelQuery("e_destuso", NULL, 1);
+        $result=Array();
+        if($res["success"]){
+            foreach($res["result"] as $k=>$v){
+                $result[]=Array("value"=>$v["id"],"label"=>$v["destuso"]);
             }
         }
         return $result;
@@ -184,24 +248,32 @@ class ws {
             $keys[]=$f;
             $values[]=":$f";
         }
+        $keys[] = "tmsins";
+        $values[] = ":tmsins"; 
+        $keys[] = "uidins";
+        $values[] = ":uidins"; 
         $sql = "INSERT INTO %s.%s(%s) VALUES(%s)";
         $sql = sprintf($sql,$this->schema,$table,implode(",",$keys),implode(",",$values));
         return $sql;    
         
     }
     function execInsQuery($sql,$prms,$seq=""){
+        $prms = $this->parseData($prms);
         $stmt = $this->dbh->prepare($sql);
+        $prms["tmsins"] = time();
+        $prms["uidins"] = -1;
         if (!$stmt->execute($prms)){
             $errors=$stmt->errorInfo();
             $this->debug(utils::debugDir."error-SQL.debug", $errors);
-            return Array("success" => 0,"errors" => $errors[2], "pk" => NULL);
+            $this->debug(utils::debugDir."error-data-SQL.debug", $prms);
+            return Array("success" => 0,"errors" => $errors[2], "id" => NULL);
         }
         else{
             $id = NULL;
             if ($seq){
                 $id = $this->dbh->lastInsertId($seq);
             }
-            return Array("success" => 1,"errors" => NULL, "pk" => $id);
+            return Array("success" => 1,"errors" => NULL, "id" => $id);
             
         }
     }
@@ -210,12 +282,12 @@ class ws {
             $schema = $this->schema;
         }
         if (!$mode){
-            $sql = sprintf("SELECT * FROM %s.%s WHERE id=?;",$schema,$table,$v);
+            $sql = sprintf("SELECT * FROM %s.%s WHERE id=%s;",$schema,$table,$v);
             
         } 
         else{
             if ($v){
-                $sql = sprintf("SELECT * FROM %s.%s WHERE pratica=?;",$schema,$table,$v);
+                $sql = sprintf("SELECT * FROM %s.%s WHERE pratica=%s;",$schema,$table,$v);
             }
             else{
                 $sql = sprintf("SELECT * FROM %s.%s;",$schema,$table);
@@ -227,7 +299,18 @@ class ws {
             return Array("success"=>1,"result"=>$res);
         }
         else{
+            $errors=$stmt->errorInfo();
+            $this->debug(utils::debugDir."error-SQL.debug", $errors);
             return Array("success"=>0,"result"=>NULL);
         }
+    }
+    function parseData($d){
+        $result = Array();
+        foreach($d as $k=>$v){
+            if ($v[0]=='"' && $v[-1]=='') $v=  substr ($v, 1, strlen($v)-2);
+            if ($v =='null') $v = NULL;
+            $result[$k] = $v;
+        }
+        return $result;
     }
 }

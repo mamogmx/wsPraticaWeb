@@ -79,12 +79,12 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
     "comunicazioni"=>Array("name"=>"comunicazioni","type"=>"xsd:int"),
     "concessionario"=>Array("name"=>"concessionario","type"=>"xsd:int"),
     "datanato"=>Array("name"=>"datanato","type"=>"xsd:date"),
-    "direttore"=>Array("name"=>"direttore","type"=>"xsd:boolean"),
-    "economia_diretta"=>Array("name"=>"economia_diretta","type"=>"xsd:boolean"),
+    "direttore"=>Array("name"=>"direttore","type"=>"xsd:int"),
+    "economia_diretta"=>Array("name"=>"economia_diretta","type"=>"xsd:int"),
     "email"=>Array("name"=>"email","type"=>"xsd:string"),
-    "esecutore"=>Array("name"=>"esecutore","type"=>"xsd:boolean"),
+    "esecutore"=>Array("name"=>"esecutore","type"=>"xsd:int"),
     "fax"=>Array("name"=>"fax","type"=>"xsd:string"),
-    "geologo"=>Array("name"=>"geologo","type"=>"xsd:boolean"),
+    "geologo"=>Array("name"=>"geologo","type"=>"xsd:int"),
     "inail"=>Array("name"=>"inail","type"=>"xsd:string"),
     "inailprov"=>Array("name"=>"inailprov","type"=>"xsd:string"),
     "indirizzo"=>Array("name"=>"indirizzo","type"=>"xsd:string"),
@@ -94,9 +94,9 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
     "note"=>Array("name"=>"note","type"=>"xsd:string"),
     "pec"=>Array("name"=>"pec","type"=>"xsd:string"),
     "piva"=>Array("name"=>"piva","type"=>"xsd:string"),
-    "progettista"=>Array("name"=>"progettista","type"=>"xsd:boolean"),
-    "progettista_ca"=>Array("name"=>"Progettista Cementi Armati","type"=>"xsd:boolean"),
-    "proprietario"=>Array("name"=>"proprietario","type"=>"xsd:boolean"),
+    "progettista"=>Array("name"=>"progettista","type"=>"xsd:int"),
+    "progettista_ca"=>Array("name"=>"Progettista Cementi Armati","type"=>"xsd:int"),
+    "proprietario"=>Array("name"=>"proprietario","type"=>"xsd:int"),
     "prov"=>Array("name"=>"prov","type"=>"xsd:string"),
     "provd"=>Array("name"=>"provd","type"=>"xsd:string"),
     "provnato"=>Array("name"=>"provnato","type"=>"xsd:string"),
@@ -104,7 +104,7 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
     "richiedente"=>Array("name"=>"richiedente","type"=>"xsd:int"),
     "sede"=>Array("name"=>"sede","type"=>"xsd:string"),
     "sesso"=>Array("name"=>"sesso","type"=>"xsd:string"),
-    "sicurezza"=>Array("name"=>"sicurezza","type"=>"xsd:boolean"),
+    "sicurezza"=>Array("name"=>"sicurezza","type"=>"xsd:int"),
     "telefono"=>Array("name"=>"telefono","type"=>"xsd:string"),
     "titolo"=>Array("name"=>"titolo","type"=>"xsd:string"),
     "titolo_note"=>Array("name"=>"titolo_note","type"=>"xsd:string"),
@@ -181,6 +181,14 @@ $server->wsdl->addComplexType('parere','complextType','array','all','',Array(
     "testo" => Array("name"=>"testo","type"=>"xsd:string")
     )
 );
+
+$server->wsdl->addComplexType('progetto','complexType','struct','all','',Array(
+        "destuso1"=>Array("name"=>"destuso1","type"=>"xsd:int"),
+        "destuso2"=>Array("name"=>"destuso2","type"=>"xsd:int"),
+        "tavole"=>Array("name"=>"tavole","type"=>"xsd:string")
+    )
+);
+
 $server->wsdl->addComplexType(
     'indirizzi',
     'complexType',
@@ -324,6 +332,12 @@ $server->wsdl->addComplexType(
     "tns:elemento"
 );
 
+$server->wsdl->addComplexType(
+    'strArray','complexType','array','',
+    'SOAP-ENC:Array',
+    array(),
+    array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')));
+
 
 $server->wsdl->schemaTargetNamespace = 'urn:praticaweb';
 
@@ -342,8 +356,8 @@ $server->register('aggiungiPratica',
     ),
     Array(
         "success"=>"xsd:int",
-        "message"=>"xsd:string[]",
-        "errors" =>"xsd:string[]" ,
+        "messages"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
         "pratica"=>"xsd:int",
         "numero_pratica"=>"xsd:string"
     ),
@@ -354,7 +368,57 @@ $server->register('aggiungiPratica',
     'Metodo che aggiunge una istanza di pratica edilizia al software Praticaweb 2.0,restituisce la chiave primaria della pratica'
 );
 
+$server->register('aggiungiAllegato',
+    Array(
+        "pratica"=>"xsd:int",
+        "allegato" => "tns:allegato"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "messages"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
+        "id"=>"xsd:int",
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#addAllegato',
+    'rpc',
+    'encoded',
+    'Metodo che aggiunge ad una istanza di pratica edilizia un allegato e i relativi files'
+);
 
+$server->register('aggiungiProgetto',
+    Array(
+        "pratica"=>"xsd:int",
+        "progetto" => "tns:progetto"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
+        "id"=>"xsd:int",
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#addProgetto',
+    'rpc',
+    'encoded',
+    'Metodo che aggiunge ad una istanza di pratica edilizia i dati relativi al Progetto'
+);
+
+$server->register('trovaProcedimento',
+    Array(
+        "numero"=>"xsd:string"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"xsd:string",
+        "id"=>"xsd:int"
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#findProcedimento',
+    'rpc',
+    'encoded',
+    'Metodo che restituisce id del procedimento dal numero'
+);
 
 $server->register('elencoTipoPratica',
     Array(),
@@ -368,6 +432,20 @@ $server->register('elencoTipoPratica',
     'rpc',
     'encoded',
     'Metodo che restituisce elenco tipo pratica'
+);
+
+$server->register('elencoDestUso',
+    Array(),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"xsd:string",
+        "result"=>"tns:elenco"
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#listDestUso',
+    'rpc',
+    'encoded',
+    "Metodo che restituisce elenco desinazioni d'uso"
 );
 
 $server->register('elencoAllegati',
@@ -397,6 +475,7 @@ $server->register('elencoVie',
     'encoded',
     'Metodo che restituisce elenco allegati disponibili online'
 );
+
 //require_once DIR.'lib/wsFunction.savona.php';
 require_once "../config/savona.config.php";
 require_once DIR."lib/utils.php";
@@ -406,14 +485,15 @@ require_once DIR."lib/utils.php";
 function aggiungiPratica($procedimento,$soggetti=Array(),$indirizzi=Array(),$ct=Array(),$cu=Array(),$allegati=Array()){
     //ISTANZIO L'OGGETTO WS APPROPRIATO
     $ws = new wsApp(DSN);
-    $ws->debug($ws->debugDir."OBJECT.debug",$ws);
+    $ws->debug($ws->debugDir."PROCEDIMENTO.debug",$procedimento);
+
     //INSERISCO UNA NUOVA PRATICA
     $r = $ws->aggiungiPratica($procedimento);
     //SE NON E' ANDATO A BUON FINE RITORNO MESSAGGIO DI ERRORE
     if(!$r["success"]){
         return Array(
             "success"=>0,
-            "errors" => Array($r["message"]),
+            "errors" => Array($r["error"]),
             "messages" => Array(),
             "numero" => NULL,
             "pratica" => NULL
@@ -424,41 +504,115 @@ function aggiungiPratica($procedimento,$soggetti=Array(),$indirizzi=Array(),$ct=
         "success"=>1,
         "errors" => Array(),
         "messages" => Array(),
-        "numero" => $r["numero"],
+        "numero_pratica" => $r["numero"],
         "pratica" => $r["id"]
     );
+    $pr = $r["id"];
+    $ws->setDirAllegati($pr);
+    $ws->debug($ws->debugDir."RESULT.debug",$r);
     
-    
-    $pr = $res["id"];
     //SETTO LA DIRECTORY DEGLI ALLEGATI
     //$ws->setDirAllegati($pr);
     //CREO LA DIRECTORY DEGLI ALLEGATI
     //$ws->createDirAllegati();
     //INSERIMENTO DEI SOGGETTI 
     $cont = $err = 0;
+    $errors = Array();
+    $messages = Array();
+    $ws->debug($ws->debugDir."SOGGETTI.debug",$soggetti);
     for($i=0;$i<count($soggetti);$i++){
         $res = $ws->aggiungiRecord($pr, $soggetti[$i], "soggetti");
         if(!$res["success"]){
             $err += 1;
-            $result["errors"][] = $res["message"];
+            $errors[] = $res["error"];
         }
         else{
             $cont += 1;
         }
     }
-    $message = ($err)?("Sono stati inseriti $cont soggetti. Si sono verificati $err errori."):("Sono stati inseriti $cont soggetti.");
-    
-    $result["messages"][]=$message;
+    $messages[] = ($err)?("Sono stati inseriti $cont soggetti. Si sono verificati $err errori."):("Sono stati inseriti $cont soggetti.");
+
     //INSERIMENTO DEGLI INDIRIZZI 
     $cont = $err = 0;
+    for($i=0;$i<count($indirizzi);$i++){
+        $res = $ws->aggiungiRecord($pr, $indirizzi[$i], "indirizzi");
+        if(!$res["success"]){
+            $err += 1;
+            $errors[] = $res["error"];
+        }
+        else{
+            $cont += 1;
+        }
+    }
+    $messages[] = ($err)?("Sono stati inseriti $cont indirizzi. Si sono verificati $err errori."):("Sono stati inseriti $cont indirizzi.");
+
+    //INSERIMENTO DELLE PARTICELLE DEL CATASTO TERRENI 
+    $cont = $err = 0;
+    for($i=0;$i<count($ct);$i++){
+        $res = $ws->aggiungiRecord($pr, $ct[$i], "cterreni");
+        if(!$res["success"]){
+            $err += 1;
+            $errors[] = $res["error"];
+        }
+        else{
+            $cont += 1;
+        }
+    }
+    $messages[] = ($err)?("Sono state inserite $cont particelle del catasto terreni. Si sono verificati $err errori."):("Sono state inserite $cont particelle del catasto terreni.");
+    
+    //INSERIMENTO DELLE PARTICELLE DEL CATASTO URBANO 
+    $cont = $err = 0;
+    for($i=0;$i<count($cu);$i++){
+        $res = $ws->aggiungiRecord($pr, $cu[$i], "curbano");
+        if(!$res["success"]){
+            $err += 1;
+            $errors[] = $res["error"];
+        }
+        else{
+            $cont += 1;
+        }
+    }
+    $messages[] = ($err)?("Sono state inserite $cont particelle del catasto urbano. Si sono verificati $err errori."):("Sono state inserite $cont particelle del catasto urbano.");
+    
+    //INSERIMENTO DEGLI ALLEGATI 
     
     
+    $result["messages"] = $messages;
+    $result["errors"] = $errors;
+
     return $result;
 }
 function aggiornaPratica($pratica,$tipo,$intervento,$oggetto,$note,$destinazione_uso){
     $result=Array();
     return $result;
 }
+
+/*----------------------------------------------------------------------------*/
+/*                    ALLEGATI                                                */
+/*----------------------------------------------------------------------------*/
+
+function aggiungiAllegato($pratica,$allegato){
+    $ws = new wsApp(DSN,$pratica);
+    $res = $ws->aggiungiAllegato($pratica, $allegato);
+    if(!$res["success"]){
+        return Array(
+            "success"=>0,
+            "errors" => Array($res["error"]),
+            "messages" => Array(),
+            "id" => NULL
+        );
+    }
+    else{
+        
+        return Array(
+            "success"=>1,
+            "errors" => NULL,
+            "messages" => $res["messages"],
+            "id" => $res["id"]
+        );
+    }
+}
+
 /*----------------------------------------------------------------------------*/
 /*             SOGGETTI                                                       */
 /*----------------------------------------------------------------------------*/
@@ -517,24 +671,22 @@ function rimuoviIndirizzo($pratica,$indirizzo){
 }
 
 /*----------------------------------------------------------------------------*/
-/*                    ALLEGATI                                                */
+/*                    Progetto                                               */
 /*----------------------------------------------------------------------------*/
-
-function aggiungiAllegato($pratica,$allegato,$files=Array()){
-    
+function aggiungiProgetto($pratica,$progetto){
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->aggiungiRecord($pratica, $progetto, "progetto");
+    return $result;
+}
+function rimuoviProgetto($id){
+    $result=Array();
     return $result;
 }
 
-function addFile($pratica,$allegato,$text,$dir){
-    
-    return $result;
-}
 
-function aggiungiFile($pratica,$allegato){
-    
-    return $result;
+function trovaProcedimento($npratica){
+    return -1;
 }
-
 
 /*----------------------------------------------------------------------------*/
 /*                    TIPI PRATICA                                            */
@@ -545,15 +697,32 @@ function elencoTipoPratica(){
     return Array("success"=>1,"message"=>"","result"=>$ws->elencoTipiPratica());
 }
 
+/*----------------------------------------------------------------------------*/
+/*                    TIPO ALLEGATI                                           */
+/*----------------------------------------------------------------------------*/
 function elencoAllegati(){
     $ws = new wsApp(DSN);
     return Array("success"=>1,"message"=>"","result"=>$ws->elencoAllegati());
 }
 
+/*----------------------------------------------------------------------------*/
+/*                    ELENCO VIE                                              */
+/*----------------------------------------------------------------------------*/
+
 function elencoVie(){
     $ws = new wsApp(DSN);
     return Array("success"=>1,"message"=>"","result"=>$ws->elencoVie());
 }
+
+/*----------------------------------------------------------------------------*/
+/*                    TIPO DESTINAZIONE D'USO                                 */
+/*----------------------------------------------------------------------------*/
+
+function elencoDestUso(){
+    $ws = new wsApp(DSN);
+    return Array("success"=>1,"message"=>"","result"=>$ws->elencoDestUso());
+}
+
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
 $server->service($HTTP_RAW_POST_DATA);
 ?>
