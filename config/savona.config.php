@@ -8,7 +8,7 @@ define('LIBWSDL',LIB."php-wsdl".DIRECTORY_SEPARATOR);
 define('DSN',$dsn);
 define('DOCDIR','/data/savona/pe/praticaweb/documenti/pe/');
 
-ini_set('memory_limit','512M');
+ini_set('memory_limit','1024M');
 function convert($res){
     for($i=0;$i<count($res);$i++){
         list($id,$testo)=$res[$i];

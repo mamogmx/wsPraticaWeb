@@ -90,7 +90,7 @@ class ws {
     }
     function aggiungiRecord($pr,$d,$table){
         $tstart=  microtime();
-        $this->debug($this->debugDir.strtoupper($table).".debug", $d);
+        //$this->debug($this->debugDir.strtoupper($table).".debug", $d);
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
             $data[$key]=($d[$key])?($d[$key]):(null);
@@ -123,7 +123,9 @@ class ws {
                 "success"=>1,
                 "errors" => Array(),
                 "messages" => Array(),
-                "id" => $r["id"]
+                "id" => $r["id"],
+                "cont" => 0,
+                "err" => 0
             );
             $cont = $err = 0;
             for($i=0;$i<count($fAllegati);$i++){
@@ -157,12 +159,15 @@ class ws {
                 "success"=>0,
                 "errors" => Array($r["error"]),
                 "messages" => Array(),
-                "id" => NULL
+                "id" => NULL,
+                "cont" => 0,
+                "err" => 0
             );
         }
         
         $result["err"] = $err;
         $result["cont"] = $cont;
+        $this->debug($this->debugDir."RESULT-ALLEGATO-".$d["documento"].".debug", $result,'w');
         return $result;
     }
     function elencoTipiPratica(){
@@ -308,7 +313,8 @@ class ws {
         $result = Array();
         foreach($d as $k=>$v){
             if ($v[0]=='"' && $v[-1]=='') $v=  substr ($v, 1, strlen($v)-2);
-            if ($v =='null') $v = NULL;
+            if (in_array($k,Array("proprietario","concessionario","richiedente","progettista","direttore","esecutore","sicurezza","collaudatore")) && ($v=='null' || !$v)) $v='0';
+	    if ($v =='null') $v = NULL;
             $result[$k] = $v;
         }
         return $result;

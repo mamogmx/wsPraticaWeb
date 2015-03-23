@@ -378,6 +378,8 @@ $server->register('aggiungiAllegato',
         "messages"=>"tns:strArray",
         "errors" =>"tns:strArray" ,
         "id"=>"xsd:int",
+        "err"=>"xsd:int",
+        "cont"=>"xsd:int"
     ),
     'urn:praticaweb',
     'urn:praticaweb#addAllegato',
