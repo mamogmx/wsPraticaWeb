@@ -188,7 +188,13 @@ $server->wsdl->addComplexType('progetto','complexType','struct','all','',Array(
         "tavole"=>Array("name"=>"tavole","type"=>"xsd:string")
     )
 );
-
+$server->wsdl->addComplexType('lavori','complexType','struct','all','',Array(
+        "il"=>Array("name"=>"il","type"=>"xsd:string"),
+        "fl"=>Array("name"=>"fl","type"=>"xsd:string"),
+        "note"=>Array("name"=>"note","type"=>"xsd:string")
+        
+    )
+);
 $server->wsdl->addComplexType(
     'indirizzi',
     'complexType',
