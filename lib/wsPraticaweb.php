@@ -347,14 +347,14 @@ $server->wsdl->addComplexType(
 
 $server->wsdl->addComplexType(
     'infoProcedimento','complexType','struct','all','',Array(
-        "procedimento"=>"tns:procedimento",
-        "richiedenti"=>"tns:soggetto[]",
-        "progettisti"=>"tns:soggetto[]",
-        "direttore_lavori"=>"tns:soggetto[]",
-        "esecutori"=>"tns:soggetto[]",
-        "catasto_urbano"=>"tns:particella[]",
-        "catasto_terreni"=>"tns:particella[]",
-        "indirizzi"=>"tns:indirizzo[]"
+        "procedimento"=>Array("name"=>"procedimento","type"=>"tns:procedimento"),
+        "richiedenti"=>Array("name"=>"richiedenti","type"=>"tns:soggetto[]"),
+        "progettisti"=>Array("name"=>"progettisti","type"=>"tns:soggetto[]"),
+        "direttore_lavori"=>Array("name"=>"direttore_lavori","type"=>"tns:soggetto[]"),
+        "esecutori"=>Array("name"=>"esecutori","type"=>"tns:soggetto[]"),
+        "catasto_urbano"=>Array("name"=>"catasto_urbano","type"=>"tns:particella[])"),
+        "catasto_terreni"=>Array("name"=>"catasto_terreni","type"=>"tns:particella[]"),
+        "indirizzi"=>Array("name"=>"indirizzi","type"=>"tns:indirizzo[]")
     ),
     "tns:infoProcedimento"
 );
