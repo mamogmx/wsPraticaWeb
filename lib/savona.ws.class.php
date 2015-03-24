@@ -124,9 +124,9 @@ class wsApp extends ws{
                 "params"=>Array(
                     "il","fl","note"
                 ),
-                "table"=> "",
-                "schema"=>"",
-                "sequence"=>""
+                "table"=> "lavori",
+                "schema"=>"pe",
+                "sequence"=>"pe.lavori_id_seq"
             ),
             "progetto"=>Array(
                 "fields"=>Array(

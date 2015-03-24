@@ -170,6 +170,40 @@ class ws {
         $this->debug($this->debugDir."RESULT-ALLEGATO-".$d["documento"].".debug", $result,'w');
         return $result;
     }
+    function aggiungiIL($pr,$d){
+        $ris = $this->execSelQuery("lavori",$pr,1);
+        if(count($ris["result"])==0){
+            $result = $this->aggiungiRecord($pr, $d, "lavori");
+        }
+        else{
+            $sql = "UPDATE pe.lavori SET note = ?,il = ? WHERE pratica = ?;";
+            
+        }
+    }
+    function aggiungiFL($pr,$d){
+        $ris = $this->execSelQuery("lavori",$pr,1);
+        if(count($ris["result"])==0){
+            $this->aggiungiRecord($pr, $d, "lavori");
+        }
+    }
+    function trovaProcedimento($n){
+        $sql = "SELECT pratica FROM pe.avvioproc WHERE numero=?;";
+        $stmt = $this->dbh->prepare($sql);
+        if($stmt->execute(Array($n))){
+            $id = $stmt->fetchColumn();
+            if ($id)
+                return Array("success"=>1,"id"=>$id,"message"=>"");
+            else {
+                return Array("success"=>1,"id"=>NULL,"message"=>"Nessuna pratica trovata con numero $n");
+            }
+        }
+        else{
+            $errors=$stmt->errorInfo();
+            $this->debug(utils::debugDir."error-SQL.debug", $errors);
+            return Array("success"=>0,"id"=>NULL,"message"=>$errors);
+        }
+    }
+    
     function elencoTipiPratica(){
         $res = $this->execSelQuery("e_tipopratica", NULL, 1);
         $result=Array();

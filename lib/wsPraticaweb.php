@@ -730,13 +730,13 @@ function rimuoviProgetto($id){
 
 function comunicazioneInizioLavori($pratica,$lavori){
     $ws = new wsApp(DSN,$pratica);
-    $result = $ws->aggiungiRecord($pratica, $lavori, "lavori");
+    $result = $ws->aggiungiIL($pratica, $lavori );
     return $result;
 }
 
 function comunicazioneFineLavori($pratica,$lsvori){
     $ws = new wsApp(DSN,$pratica);
-    $result = $ws->aggiungiRecord($pratica, $lavori, "lavori");
+    $result = $ws->aggiungiFL($pratica, $lavori);
     return $result;
 }
 
@@ -746,7 +746,9 @@ function comunicazioneFineLavori($pratica,$lsvori){
 
 
 function trovaProcedimento($npratica){
-    return -1;
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->trovaProcedimento($npratica);
+    return $result;
 }
 
 /*----------------------------------------------------------------------------*/
