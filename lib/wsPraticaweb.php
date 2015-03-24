@@ -427,7 +427,40 @@ $server->register('trovaProcedimento',
     'encoded',
     'Metodo che restituisce id del procedimento dal numero'
 );
-
+$server->register('comunicazioneInizioLavori',
+    Array(
+        "pratica"=>"xsd:int",
+        "progetto" => "tns:lavori"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
+        "id"=>"xsd:int",
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#sendIL',
+    'rpc',
+    'encoded',
+    'Metodo che registra la data di inizio lavori'
+);
+$server->register('comunicazioneFineLavori',
+    Array(
+        "pratica"=>"xsd:int",
+        "progetto" => "tns:lavori"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
+        "id"=>"xsd:int",
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#sendFL',
+    'rpc',
+    'encoded',
+    'Metodo che registra la data di fine lavori'
+);
 $server->register('elencoTipoPratica',
     Array(),
     Array(
@@ -679,7 +712,7 @@ function rimuoviIndirizzo($pratica,$indirizzo){
 }
 
 /*----------------------------------------------------------------------------*/
-/*                    Progetto                                               */
+/*                    Progetto                                                */
 /*----------------------------------------------------------------------------*/
 function aggiungiProgetto($pratica,$progetto){
     $ws = new wsApp(DSN,$pratica);
@@ -690,6 +723,26 @@ function rimuoviProgetto($id){
     $result=Array();
     return $result;
 }
+
+/*----------------------------------------------------------------------------*/
+/*                    Comunicazione Date Lavori                               */
+/*----------------------------------------------------------------------------*/
+
+function comunicazioneInizioLavori($pratica,$lavori){
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->aggiungiRecord($pratica, $lavori, "lavori");
+    return $result;
+}
+
+function comunicazioneFineLavori($pratica,$lsvori){
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->aggiungiRecord($pratica, $lavori, "lavori");
+    return $result;
+}
+
+/*----------------------------------------------------------------------------*/
+/*                    Metodi di Ricerca                                       */
+/*----------------------------------------------------------------------------*/
 
 
 function trovaProcedimento($npratica){

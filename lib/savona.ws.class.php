@@ -119,10 +119,10 @@ class wsApp extends ws{
             ),
             "lavori"=>Array(
                 "fields"=>Array(
-
+                    "pratica","il","fl","note"
                 ),
                 "params"=>Array(
-
+                    "il","fl","note"
                 ),
                 "table"=> "",
                 "schema"=>"",
