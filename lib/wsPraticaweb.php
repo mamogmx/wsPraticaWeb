@@ -430,7 +430,7 @@ $server->register('trovaProcedimento',
 $server->register('comunicazioneInizioLavori',
     Array(
         "pratica"=>"xsd:int",
-        "progetto" => "tns:lavori"
+        "lavori" => "tns:lavori"
     ),
     Array(
         "success"=>"xsd:int",
@@ -447,7 +447,7 @@ $server->register('comunicazioneInizioLavori',
 $server->register('comunicazioneFineLavori',
     Array(
         "pratica"=>"xsd:int",
-        "progetto" => "tns:lavori"
+        "lavori" => "tns:lavori"
     ),
     Array(
         "success"=>"xsd:int",
