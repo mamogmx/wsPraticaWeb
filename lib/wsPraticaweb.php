@@ -347,7 +347,7 @@ $server->wsdl->addComplexType(
 
 $server->wsdl->addComplexType(
     'infoProcedimento','complexType','struct','all','',Array(
-        "numero_pratica"=>"xsd:string",
+        "procedimento"=>"tns:procedimento",
         "richiedenti"=>"tns:soggetto[]",
         "progettisti"=>"tns:soggetto[]",
         "direttore_lavori"=>"tns:soggetto[]",
