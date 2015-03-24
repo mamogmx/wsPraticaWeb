@@ -345,6 +345,20 @@ $server->wsdl->addComplexType(
     array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')));
 
 
+$server->wsdl->addComplexType(
+    'infoProcedimento','complexType','struct','all','',Array(
+        "numero_pratica"=>"xsd:string",
+        "richiedenti"=>"tns:soggetto[]",
+        "progettisti"=>"tns:soggetto[]",
+        "direttore_lavori"=>"tns:soggetto[]",
+        "esecutori"=>"tns:soggetto[]",
+        "catasto_urbano"=>"tns:particella[]",
+        "catasto_terreni"=>"tns:particella[]",
+        "indirizzi"=>"tns:indirizzo[]"
+    ),
+    "tns:infoProcedimento"
+);
+
 $server->wsdl->schemaTargetNamespace = 'urn:praticaweb';
 
 
@@ -517,6 +531,19 @@ $server->register('elencoVie',
     'Metodo che restituisce elenco allegati disponibili online'
 );
 
+$server->register('infoProcedimentoStampa',
+    Array("id"=>"xsd:int"),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"xsd:string",
+        "result"=>"tns:infoProcedimento"
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#listTipoPratica',
+    'rpc',
+    'encoded',
+    'Metodo che restituisce elenco allegati disponibili online'
+);
 //require_once DIR.'lib/wsFunction.savona.php';
 require_once "../config/savona.config.php";
 require_once DIR."lib/utils.php";
@@ -748,6 +775,17 @@ function comunicazioneFineLavori($pratica,$lsvori){
 function trovaProcedimento($npratica){
     $ws = new wsApp(DSN,$pratica);
     $result = $ws->trovaProcedimento($npratica);
+    return $result;
+}
+
+/*----------------------------------------------------------------------------*/
+/*                    Metodi di Raccolta Informazioni                         */
+/*----------------------------------------------------------------------------*/
+
+
+function infoProcedimentoStampa($id="",$npratica=""){
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->printProcedimento($id);
     return $result;
 }
 
