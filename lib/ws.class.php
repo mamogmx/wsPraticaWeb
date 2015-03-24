@@ -228,20 +228,25 @@ class ws {
     
     function infoProcedimento(){
         $res = $this->execSelQuery("avvioproc", $this->pratica, 0);
-        return Array(
-            "success"=>1,
-            "message"=>"",
-            "result"=>Array(
-                "procedimento"=>$res["result"],
-                "richiedenti"=>Array(),
-                "progettisti"=>Array(),
-                "direttore_lavori"=>Array(),
-                "esecutori"=>Array(),
-                "catasto_urbano"=>Array(),
-                "catasto_terreni"=>Array(),
-                "indirizzi"=>Array()
-            )
-        );
+        
+        if ($res["success"]){
+            return Array(
+                "success"=>1,
+                "message"=>"",
+                "result"=>Array(
+                    "procedimento"=>$res["result"],
+                    "richiedenti"=>Array(),
+                    "progettisti"=>Array(),
+                    "direttore_lavori"=>Array(),
+                    "esecutori"=>Array(),
+                    "catasto_urbano"=>Array(),
+                    "catasto_terreni"=>Array(),
+                    "indirizzi"=>Array()
+                )
+            );
+        }
+        else 
+            return $res;
     }
     
     function elencoTipiPratica(){
