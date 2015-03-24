@@ -531,7 +531,7 @@ $server->register('elencoVie',
     'Metodo che restituisce elenco allegati disponibili online'
 );
 
-$server->register('infoProcedimentoStampa',
+$server->register('infoProcedimento',
     Array("id"=>"xsd:int"),
     Array(
         "success"=>"xsd:int",
@@ -539,10 +539,10 @@ $server->register('infoProcedimentoStampa',
         "result"=>"tns:infoProcedimento"
     ),
     'urn:praticaweb',
-    'urn:praticaweb#listTipoPratica',
+    'urn:praticaweb#infoPratica',
     'rpc',
     'encoded',
-    'Metodo che restituisce elenco allegati disponibili online'
+    'Metodo che Informazioni sul Procedimento'
 );
 //require_once DIR.'lib/wsFunction.savona.php';
 require_once "../config/savona.config.php";
@@ -783,9 +783,9 @@ function trovaProcedimento($npratica){
 /*----------------------------------------------------------------------------*/
 
 
-function infoProcedimentoStampa($id="",$npratica=""){
-    $ws = new wsApp(DSN,$pratica);
-    $result = $ws->printProcedimento($id);
+function infoProcedimento($pr="",$npratica=""){
+    $ws = new wsApp(DSN,$pr);
+    $result = $ws->infoProcedimento();
     return $result;
 }
 

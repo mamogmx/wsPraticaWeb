@@ -24,7 +24,7 @@ class ws {
     function __construct($dsn,$pr=NULL) {
         $this->dbh = new PDO($dsn);
         $this->result = Array("success"=>NULL,"message"=>NULL,"id"=>NULL,"time"=>NULL);
-
+        $this->pratica = $pr;
         
         
     }
@@ -224,6 +224,24 @@ class ws {
             $this->debug(utils::debugDir."error-SQL.debug", $errors);
             return Array("success"=>0,"id"=>NULL,"message"=>$errors);
         }
+    }
+    
+    function infoProcedimento(){
+        $res = $this->execSelQuery("avvioproc", $this->pratica, 0);
+        return Array(
+            "success"=>1,
+            "message"=>"",
+            "result"=>Array(
+                "procedimento"=>$res["result"],
+                "richiedenti"=>Array(),
+                "progettisti"=>Array(),
+                "direttore_lavori"=>Array(),
+                "esecutori"=>Array(),
+                "catasto_urbano"=>Array(),
+                "catasto_terreni"=>Array(),
+                "indirizzi"=>Array()
+            )
+        );
     }
     
     function elencoTipiPratica(){
