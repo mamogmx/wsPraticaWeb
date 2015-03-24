@@ -225,20 +225,79 @@ class ws {
             return Array("success"=>0,"id"=>NULL,"message"=>$errors);
         }
     }
+    private function elencoSoggetti($pr,$t=""){
+        if (!$t or !in_array($t,Array("richiedente","concessionario","proprietario","direttore","progettista","esecutore")) ){
+            /*RICHIEDENTI*/
+            $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND coalesce(voltura,0)=0";
+            $stmt = $this->db->prepare($sql);
+            if ($stmt->execute(Array($pr))){
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            else{
+                $res = Array();
+            }
+        }
+        else{
+            $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND $t = 1 AND coalesce(voltura,0)=0";
+            $stmt = $this->db->prepare($sql);
+            if ($stmt->execute(Array($pr))){
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            else{
+                $res = Array();
+            }
+        }
+        return $res;
+    }
     
     function infoProcedimento(){
-        $res = $this->execSelQuery("avvioproc", $this->pratica, 0);
-        
+        $proc = $this->execSelQuery("avvioproc", $this->pratica, 0);
+        /*RICHIEDENTI*/
+        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute(Array($this->pratica))){
+            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            $rich = Array();
+        }
+        /*RICHIEDENTI*/
+        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute(Array($this->pratica))){
+            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            $rich = Array();
+        }
+        /*RICHIEDENTI*/
+        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute(Array($this->pratica))){
+            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            $rich = Array();
+        }
+        /*RICHIEDENTI*/
+        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute(Array($this->pratica))){
+            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            $rich = Array();
+        }
         if ($res["success"]){
             return Array(
                 "success"=>1,
                 "message"=>"",
                 "result"=>Array(
-                    "procedimento"=>$res["result"],
-                    "richiedenti"=>Array(),
-                    "progettisti"=>Array(),
-                    "direttore_lavori"=>Array(),
-                    "esecutori"=>Array(),
+                    "procedimento"=>$proc["result"],
+                    "richiedenti"=>$rich,
+                    "progettisti"=>$prog,
+                    "direttore_lavori"=>$dirlav,
+                    "esecutori"=>$esec,
                     "catasto_urbano"=>Array(),
                     "catasto_terreni"=>Array(),
                     "indirizzi"=>Array()
