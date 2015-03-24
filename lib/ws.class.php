@@ -176,15 +176,37 @@ class ws {
             $result = $this->aggiungiRecord($pr, $d, "lavori");
         }
         else{
-            $sql = "UPDATE pe.lavori SET note = ?,il = ? WHERE pratica = ?;";
-            
+            $stmt = $this->dbh->prepare($sql);
+            $sql = "UPDATE pe.lavori SET note = trim(coalesce(note,'') ||' '|| ?),il = ? WHERE pratica = ?;";
+            if($stmt->execute(Array($note,$d["il"],$pr))){
+                $result = Array("success"=>1,"id"=>$ris["result"][0]["id"],"message"=>"");
+            }
+            else{
+                $errors=$stmt->errorInfo();
+                $this->debug(utils::debugDir."error-SQL.debug", $errors);
+                $result = Array("success"=>0,"id"=>NULL,"message"=>$errors);
+            }
         }
+        return $result;
     }
     function aggiungiFL($pr,$d){
         $ris = $this->execSelQuery("lavori",$pr,1);
-        if(count($ris["result"])==0){
-            $this->aggiungiRecord($pr, $d, "lavori");
+                if(count($ris["result"])==0){
+            $result = $this->aggiungiRecord($pr, $d, "lavori");
         }
+        else{
+            $stmt = $this->dbh->prepare($sql);
+            $sql = "UPDATE pe.lavori SET note = trim(coalesce(note,'') ||' '|| ?),fl = ? WHERE pratica = ?;";
+            if($stmt->execute(Array($note,$d["fl"],$pr))){
+                $result = Array("success"=>1,"id"=>$ris["result"][0]["id"],"message"=>"");
+            }
+            else{
+                $errors=$stmt->errorInfo();
+                $this->debug(utils::debugDir."error-SQL.debug", $errors);
+                $result = Array("success"=>0,"id"=>NULL,"message"=>$errors);
+            }
+        }
+        return $result;
     }
     function trovaProcedimento($n){
         $sql = "SELECT pratica FROM pe.avvioproc WHERE numero=?;";
