@@ -352,8 +352,6 @@ $server->wsdl->addComplexType(
         "progettisti"=>Array("name"=>"progettisti","type"=>"tns:soggetti"),
         "direttore_lavori"=>Array("name"=>"direttore_lavori","type"=>"tns:soggetti"),
         "esecutori"=>Array("name"=>"esecutori","type"=>"tns:soggetti"),
-        "catasto_urbano"=>Array("name"=>"catasto_urbano","type"=>"tns:particelleurbano)"),
-        "catasto_terreni"=>Array("name"=>"catasto_terreni","type"=>"tns:particelleterreni"),
         "indirizzi"=>Array("name"=>"indirizzi","type"=>"tns:indirizzi")
     ),
     "tns:infoProcedimento"
