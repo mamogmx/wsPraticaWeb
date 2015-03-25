@@ -227,7 +227,6 @@ class ws {
     }
     private function elencoSoggetti($pr,$t=""){
         if (!$t or !in_array($t,Array("richiedente","concessionario","proprietario","direttore","progettista","esecutore")) ){
-            /*RICHIEDENTI*/
             $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND coalesce(voltura,0)=0";
             $stmt = $this->db->prepare($sql);
             if ($stmt->execute(Array($pr))){
@@ -251,43 +250,18 @@ class ws {
     }
     
     function infoProcedimento(){
-        $proc = $this->execSelQuery("avvioproc", $this->pratica, 0);
+        $pr = $this->pratica;
+        $proc = $this->execSelQuery("avvioproc", $pr, 0);
         /*RICHIEDENTI*/
-        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
-        $stmt = $this->db->prepare($sql);
-        if ($stmt->execute(Array($this->pratica))){
-            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        else{
-            $rich = Array();
-        }
-        /*RICHIEDENTI*/
-        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
-        $stmt = $this->db->prepare($sql);
-        if ($stmt->execute(Array($this->pratica))){
-            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        else{
-            $rich = Array();
-        }
-        /*RICHIEDENTI*/
-        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
-        $stmt = $this->db->prepare($sql);
-        if ($stmt->execute(Array($this->pratica))){
-            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        else{
-            $rich = Array();
-        }
-        /*RICHIEDENTI*/
-        $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND richiedente = 1;";
-        $stmt = $this->db->prepare($sql);
-        if ($stmt->execute(Array($this->pratica))){
-            $rich = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        else{
-            $rich = Array();
-        }
+        $rich = $this->elencoSoggetti($pr, "richiedente");
+        /*PROGETTISTI*/
+        $prog = $this->elencoSoggetti($pr, "progettista");
+        /*DIRETTORE LAVORI*/
+        $dirlav = $this->elencoSoggetti($pr, "direttore");
+        /*ESECUTORE LAVORI*/
+        $esec = $this->elencoSoggetti($pr, "esecutore");
+        
+        
         if ($res["success"]){
             return Array(
                 "success"=>1,
