@@ -259,7 +259,7 @@ class ws {
         $pr = $this->pratica;
         $proc = $this->execSelQuery("avvioproc", $pr, 0);
         //  ----- RICHIEDENTI -----
-        //$rich = $this->elencoSoggetti($pr, "richiedente");
+        $rich = $this->elencoSoggetti($pr, "richiedente");
         //  ----- PROGETTISTI -----
         //$prog = $this->elencoSoggetti($pr, "progettista");
         //  ----- DIRETTORE LAVORI ---
