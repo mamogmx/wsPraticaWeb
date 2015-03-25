@@ -267,6 +267,8 @@ class ws {
         //  ----  ESECUTORE LAVORI ---
         $esec = $this->elencoSoggetti($pr, "esecutore");
         
+        $res = $this->execSelQuery("indirizzi", $pr, 1);
+        $ind = $res["result"];
         
         if ($proc["success"]){
             return Array(
@@ -280,7 +282,7 @@ class ws {
                     "esecutori"=>$esec,
                     "catasto_urbano"=>Array(),
                     "catasto_terreni"=>Array(),
-                    "indirizzi"=>Array()
+                    "indirizzi"=>$ind
                 )
             );
         }
