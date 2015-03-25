@@ -253,13 +253,13 @@ class ws {
         $pr = $this->pratica;
         $proc = $this->execSelQuery("avvioproc", $pr, 0);
         //  ----- RICHIEDENTI -----
-        $rich = $this->elencoSoggetti($pr, "richiedente");
+        //$rich = $this->elencoSoggetti($pr, "richiedente");
         //  ----- PROGETTISTI -----
-        $prog = $this->elencoSoggetti($pr, "progettista");
+        //$prog = $this->elencoSoggetti($pr, "progettista");
         //  ----- DIRETTORE LAVORI ---
-        $dirlav = $this->elencoSoggetti($pr, "direttore");
+        //$dirlav = $this->elencoSoggetti($pr, "direttore");
         //  ----  ESECUTORE LAVORI ---
-        $esec = $this->elencoSoggetti($pr, "esecutore");
+        //$esec = $this->elencoSoggetti($pr, "esecutore");
         
         
         if ($proc["success"]){

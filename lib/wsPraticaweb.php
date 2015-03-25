@@ -783,9 +783,9 @@ function trovaProcedimento($npratica){
 
 function infoProcedimento($pr=""){
     $ws = new wsApp(DSN,$pr);
-    return Array("success"=>1,"message"=>"","result"=>Array());
-    //$result = $ws->infoProcedimento();
-    //return $result;
+    //return Array("success"=>1,"message"=>"","result"=>Array());
+    $result = $ws->infoProcedimento();
+    return $result;
 }
 
 /*----------------------------------------------------------------------------*/
