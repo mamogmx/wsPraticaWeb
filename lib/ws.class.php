@@ -279,7 +279,11 @@ class ws {
             );
         }
         else 
-            return $res;
+            return Array(
+                "success"=>0,
+                "message"=>"Errore",
+                "result"=>Array()
+            );
     }
     
     function elencoTipiPratica(){
