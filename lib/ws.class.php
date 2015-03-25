@@ -228,21 +228,27 @@ class ws {
     private function elencoSoggetti($pr,$t=""){
         if (!$t or !in_array($t,Array("richiedente","concessionario","proprietario","direttore","progettista","esecutore")) ){
             $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND coalesce(voltura,0)=0";
+            $this->debug(utils::debugDir."SQL.debug", $sql);
             $stmt = $this->db->prepare($sql);
             if ($stmt->execute(Array($pr))){
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             else{
+                $errors=$stmt->errorInfo();
+                $this->debug(utils::debugDir."error-SQL.debug", $errors);
                 $res = Array();
             }
         }
         else{
-            $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND $t = 1 AND coalesce(voltura,0)=0";
+            $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND $t = 1 AND coalesce(voltura,0)=0;";
+            $this->debug(utils::debugDir."SQL.debug", $sql);
             $stmt = $this->db->prepare($sql);
             if ($stmt->execute(Array($pr))){
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
             else{
+                $errors=$stmt->errorInfo();
+                $this->debug(utils::debugDir."error-SQL.debug", $errors);
                 $res = Array();
             }
         }
