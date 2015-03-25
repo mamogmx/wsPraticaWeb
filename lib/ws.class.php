@@ -252,17 +252,17 @@ class ws {
     function infoProcedimento(){
         $pr = $this->pratica;
         $proc = $this->execSelQuery("avvioproc", $pr, 0);
-        /*RICHIEDENTI*/
+        //  ----- RICHIEDENTI -----
         $rich = $this->elencoSoggetti($pr, "richiedente");
-        /*PROGETTISTI*/
+        //  ----- PROGETTISTI -----
         $prog = $this->elencoSoggetti($pr, "progettista");
-        /*DIRETTORE LAVORI*/
+        //  ----- DIRETTORE LAVORI ---
         $dirlav = $this->elencoSoggetti($pr, "direttore");
-        /*ESECUTORE LAVORI*/
+        //  ----  ESECUTORE LAVORI ---
         $esec = $this->elencoSoggetti($pr, "esecutore");
         
         
-        if ($res["success"]){
+        if ($proc["success"]){
             return Array(
                 "success"=>1,
                 "message"=>"",
