@@ -229,7 +229,7 @@ class ws {
         if (!$t or !in_array($t,Array("richiedente","concessionario","proprietario","direttore","progettista","esecutore")) ){
             $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND coalesce(voltura,0)=0";
             $this->debug(utils::debugDir."SQL.debug", $sql);
-            $stmt = $this->db->prepare($sql);
+            $stmt = $this->dbh->prepare($sql);
             if ($stmt->execute(Array($pr))){
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
@@ -242,7 +242,7 @@ class ws {
         else{
             $sql = "SELECT * FROM pe.soggetti WHERE pratica = ? AND $t = 1 AND coalesce(voltura,0)=0;";
             $this->debug(utils::debugDir."SQL.debug", $sql);
-            $stmt = $this->db->prepare($sql);
+            $stmt = $this->dbh->prepare($sql);
             if ($stmt->execute(Array($pr))){
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
@@ -261,11 +261,11 @@ class ws {
         //  ----- RICHIEDENTI -----
         $rich = $this->elencoSoggetti($pr, "richiedente");
         //  ----- PROGETTISTI -----
-        //$prog = $this->elencoSoggetti($pr, "progettista");
+        $prog = $this->elencoSoggetti($pr, "progettista");
         //  ----- DIRETTORE LAVORI ---
-        //$dirlav = $this->elencoSoggetti($pr, "direttore");
+        $dirlav = $this->elencoSoggetti($pr, "direttore");
         //  ----  ESECUTORE LAVORI ---
-        //$esec = $this->elencoSoggetti($pr, "esecutore");
+        $esec = $this->elencoSoggetti($pr, "esecutore");
         
         
         if ($proc["success"]){
