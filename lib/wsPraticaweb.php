@@ -78,7 +78,7 @@ $server->wsdl->addComplexType('soggetto','complexType','struct','all','',Array(
     "comuned"=>Array("name"=>"comuned","type"=>"xsd:string"),
     "comunicazioni"=>Array("name"=>"comunicazioni","type"=>"xsd:int"),
     "concessionario"=>Array("name"=>"concessionario","type"=>"xsd:int"),
-    "datanato"=>Array("name"=>"datanato","type"=>"xsd:date"),
+    "datanato"=>Array("name"=>"datanato","type"=>"xsd:string"),
     "direttore"=>Array("name"=>"direttore","type"=>"xsd:int"),
     "economia_diretta"=>Array("name"=>"economia_diretta","type"=>"xsd:int"),
     "email"=>Array("name"=>"email","type"=>"xsd:string"),
