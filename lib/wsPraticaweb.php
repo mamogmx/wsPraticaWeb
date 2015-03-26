@@ -356,6 +356,31 @@ $server->wsdl->addComplexType(
     ),
     "tns:infoProcedimento"
 );
+$server->wsdl->addComplexType(
+    'infoSoggetto','complexType','struct','all','',Array(
+        "anno" => Array("name"=>"anno","type"=>"xsd:int"),
+        "categoria" => Array("name"=>"categoria","type"=>"xsd:string"),
+        "data_chiusura" => Array("name"=>"data_chiusura","type"=>"xsd:string"),
+        "data_chiusura_pa" => Array("name"=>"data_chiusura_pa","type"=>"xsd:string"),
+        "data_presentazione" => Array("name"=>"data_presentazione","type"=>"xsd:string"),
+        "data_prot" => Array("name"=>"data_prot","type"=>"xsd:string"),
+        "data_resp" => Array("name"=>"data_resp","type"=>"xsd:string"),
+        "data_resp_ia" => Array("name"=>"data_resp_ia","type"=>"xsd:string"),
+        "data_resp_it" => Array("name"=>"data_resp_it","type"=>"xsd:string"),
+        "intervento" => Array("name"=>"intervento","type"=>"xsd:string"),
+        "note" => Array("name"=>"note","type"=>"xsd:string"),
+        "numero" => Array("name"=>"numero","type"=>"xsd:string"),
+        "oggetto" => Array("name"=>"oggetto","type"=>"xsd:string"),
+        "pratica" => Array("name"=>"pratica","type"=>"xsd:string"),
+        "protocollo" => Array("name"=>"protocollo","type"=>"xsd:string"),
+        "resp_ia" => Array("name"=>"resp_ia","type"=>"xsd:string"),
+        "resp_it" => Array("name"=>"resp_it","type"=>"xsd:string"),
+        "resp_proc" => Array("name"=>"resp_proc","type"=>"xsd:string"),        
+        "tipo" => Array("name"=>"tipo","type"=>"xsd:string"),
+        "soggetti"=>Array("name"=>"soggetto","type"=>"tns:soggetti"),
+    ),
+    "tns:infoSoggetto"
+);
 
 $server->wsdl->schemaTargetNamespace = 'urn:praticaweb';
 
@@ -541,6 +566,23 @@ $server->register('infoProcedimento',
     'rpc',
     'encoded',
     'Metodo che Informazioni sul Procedimento'
+);
+
+$server->register('infoSoggetto',
+    Array(
+        "id"=>"xsd:int", 
+        "tipo_soggetto"=>"xsd:string"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"xsd:string",
+        "result"=>"tns:infoSoggetto"
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#infoPratica',
+    'rpc',
+    'encoded',
+    'Metodo che Informazioni sul Procedimento e sul tipo di soggetto indicato'
 );
 //require_once DIR.'lib/wsFunction.savona.php';
 require_once "../config/savona.config.php";
@@ -785,6 +827,13 @@ function infoProcedimento($pr=""){
     $ws = new wsApp(DSN,$pr);
     //return Array("success"=>1,"message"=>"","result"=>Array());
     $result = $ws->infoProcedimento();
+    return $result;
+}
+
+function infoSoggetto($pr="",$tipo_soggetto=""){
+    $ws = new wsApp(DSN,$pr);
+    
+    $result = $ws->infoSoggetto($tipo_soggetto);
     return $result;
 }
 

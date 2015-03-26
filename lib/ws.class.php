@@ -255,7 +255,31 @@ class ws {
         return $res;
     }
     
+    function infoSoggetto($tipo){
+        $pr = $this->pratica;
+        $proc = $this->execSelQuery("avvioproc", $pr, 0);
+        $sogg = $this->elencoSoggetti($pr, $tipo);
+        
+        if ($proc["success"]){
+            $result = $proc["result"];
+            $result["soggetti"]=$sogg;
+            return Array(
+                "success"=>1,
+                "message"=>"",
+                "result"=>$result
+            );
+        }
+        else{ 
+            return Array(
+                "success"=>0,
+                "message"=>"Errore",
+                "result"=>Array()
+            );
+        }
+    }
+    
     function infoProcedimento(){
+        
         $pr = $this->pratica;
         $proc = $this->execSelQuery("avvioproc", $pr, 0);
         //  ----- RICHIEDENTI -----
@@ -286,12 +310,13 @@ class ws {
                 )
             );
         }
-        else 
+        else{ 
             return Array(
                 "success"=>0,
                 "message"=>"Errore",
                 "result"=>Array()
             );
+        }
     }
     
     function elencoTipiPratica(){
