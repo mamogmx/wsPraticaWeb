@@ -257,12 +257,10 @@ class ws {
     
     function infoSoggetto($tipo){
         $pr = $this->pratica;
-        $proc = $this->infoPratica($pr);
         $sogg = $this->elencoSoggetti($pr, $tipo);
         
         if ($proc["success"]){
-            $result = $proc["result"];
-            $result["soggetti"]=$sogg;
+            $result=$sogg;
             return Array(
                 "success"=>1,
                 "message"=>"",
@@ -278,7 +276,8 @@ class ws {
         }
     }
     
-    private function infoPratica($pr){
+    function infoPratica(){
+        $pr = $this->pratica;
         $sql=<<<EOT
 SELECT A.id, A.pratica, numero, B.nome as tipo, C.descrizione as intervento, data_presentazione, protocollo, 
     data_prot, protocollo_int, data_prot_int, D.nome as resp_proc, data_resp, 
@@ -307,6 +306,25 @@ EOT;
             $errors=$stmt->errorInfo();
             $this->debug(utils::debugDir."error-SQL.debug", $errors);
             return Array("success"=>0,"result"=>NULL);
+        }
+    }
+    
+    function infoIndirizzi(){
+        $pr = $this->pratica;
+        $res = $this->execSelQuery("indirizzi", $pr, 1);
+        if ($res["success"]){
+            return Array(
+                "success"=>1,
+                "message"=>"",
+                "result"=>$res["result"]
+            );
+        }
+        else{ 
+            return Array(
+                "success"=>0,
+                "message"=>"Errore",
+                "result"=>Array()
+            );
         }
     }
     
