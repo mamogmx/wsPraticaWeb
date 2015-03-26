@@ -257,7 +257,7 @@ class ws {
     
     function infoSoggetto($tipo){
         $pr = $this->pratica;
-        $proc = $this->execSelQuery("avvioproc", $pr, 0);
+        $proc = $this->infoPratica($pr);
         $sogg = $this->elencoSoggetti($pr, $tipo);
         
         if ($proc["success"]){
@@ -278,10 +278,42 @@ class ws {
         }
     }
     
+    private function infoPratica($pr){
+        $sql=<<<EOT
+SELECT A.id, A.pratica, numero, B.nome as tipo, C.descrizione as intervento, data_presentazione, protocollo, 
+    data_prot, protocollo_int, data_prot_int, D.nome as resp_proc, data_resp, 
+    com_resp, data_com_resp, oggetto, note, rif_pratica, riferimento, 
+    chk, uidins, tmsins, uidupd, tmsupd, prog, anno, rif_aut_amb, 
+    aut_amb, riferimento_to, E.nome as resp_it, data_resp_it, F.nome as resp_ia, data_resp_ia, 
+    diritti_segreteria, riduzione_diritti, pagamento_diritti, data_chiusura, 
+    cartella, categoria, note_chiusura, data_chiusura_pa, note_chiusura_pa, 
+    online
+FROM 
+    pe.avvioproc A inner join
+    pe.e_tipopratica B ON (A.tipo=B.id) left join
+    pe.e_intervento C ON (A.intervento=C.id) left join
+    admin.users D ON (A.resp_proc=D.userid) left join
+    admin.users E ON (A.resp_it=E.userid) left join
+    admin.users F ON (A.resp_ia=F.userid) 
+WHERE 
+    pratica = ?;
+EOT;
+        $stmt = $this->dbh->prepare($sql);
+        if($stmt->execute()){
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+            return Array("success"=>1,"result"=>$res);
+        }
+        else{
+            $errors=$stmt->errorInfo();
+            $this->debug(utils::debugDir."error-SQL.debug", $errors);
+            return Array("success"=>0,"result"=>NULL);
+        }
+    }
+    
     function infoProcedimento(){
         
         $pr = $this->pratica;
-        $proc = $this->execSelQuery("avvioproc", $pr, 0);
+        $proc = $this->infoPratica($pr);
         //  ----- RICHIEDENTI -----
         $rich = $this->elencoSoggetti($pr, "richiedente");
         //  ----- PROGETTISTI -----
