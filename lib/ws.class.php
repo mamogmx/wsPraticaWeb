@@ -257,9 +257,9 @@ class ws {
     
     function infoSoggetto($tipo){
         $pr = $this->pratica;
-        $sogg = $this->elencoSoggetti($pr, $tipo);
+        $result = $this->elencoSoggetti($pr, $tipo);
         
-        if ($proc["success"]){
+        if ($result["success"]){
             $result=$sogg;
             return Array(
                 "success"=>1,
