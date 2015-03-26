@@ -259,8 +259,7 @@ class ws {
         $pr = $this->pratica;
         $result = $this->elencoSoggetti($pr, $tipo);
         
-        if ($result["success"]){
-            $result=$sogg;
+        if ($result){
             return Array(
                 "success"=>1,
                 "message"=>"",
