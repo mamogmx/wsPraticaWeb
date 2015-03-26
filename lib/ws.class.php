@@ -299,7 +299,7 @@ WHERE
     pratica = ?;
 EOT;
         $stmt = $this->dbh->prepare($sql);
-        if($stmt->execute()){
+        if($stmt->execute(Array($pr))){
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             return Array("success"=>1,"result"=>$res);
         }
