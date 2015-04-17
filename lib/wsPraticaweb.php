@@ -195,6 +195,35 @@ $server->wsdl->addComplexType('lavori','complexType','struct','all','',Array(
         
     )
 );
+
+$server->wsdl->addComplexType('sanzione','complexType','struct','all','',Array(
+        "tipo_sanzione"=>Array("name"=>"tipo_sanzione","type"=>"xsd:string"),
+        "data_sanzione"=>Array("name"=>"data_sanzione","type"=>"xsd:string"),
+        "importo"=>Array("name"=>"importo","type"=>"xsd:string"),
+        "data_scadenza"=>Array("name"=>"data_scadenza","type"=>"xsd:string"),
+        "quietanza"=>Array("name"=>"quietanza","type"=>"xsd:string"),
+        "data_pagamento"=>Array("name"=>"data_pagamento","type"=>"xsd:string"),
+        "note"=>Array("name"=>"note","type"=>"xsd:string")
+        
+    )
+);
+
+
+$server->wsdl->addComplexType('oneri','complexType','struct','all','',Array(
+        "totale"=>Array("name"=>"totale","type"=>"xsd:string"),
+        "cc"=>Array("name"=>"cc","type"=>"xsd:string"),
+        "b1"=>Array("name"=>"b1","type"=>"xsd:string"),
+        "b2"=>Array("name"=>"b2","type"=>"xsd:string"),
+        "scb1"=>Array("name"=>"scb1","type"=>"xsd:string"),
+        "scb2"=>Array("name"=>"scb2","type"=>"xsd:string"),
+        "data"=>Array("name"=>"data","type"=>"xsd:string"),
+        "quietanza"=>Array("name"=>"quietanza","type"=>"xsd:string"),
+        "rateizzato"=>Array("name"=>"rateizzato","type"=>"xsd:string"),
+        "fideiussione"=>Array("name"=>"fideiussione","type"=>"xsd:string"),
+        "note"=>Array("name"=>"note","type"=>"xsd:string")
+    )
+);
+
 $server->wsdl->addComplexType(
     'indirizzi',
     'complexType',
@@ -215,6 +244,9 @@ $server->wsdl->addComplexType(
     ),
     "tns:indirizzo"
 );
+
+
+
 $server->wsdl->addComplexType(
     'soggetti',
     'complexType',
@@ -337,7 +369,26 @@ $server->wsdl->addComplexType(
     ),
     "tns:elemento"
 );
-
+$server->wsdl->addComplexType(
+    'sanzioni',
+    'complexType',
+    'array',
+    '',
+    'SOAP-ENC:Array',
+    Array("sanzione"=>
+        Array(
+            "name"=>"sanzione",
+            "type"=>"tns:sanzione"
+        )
+    ),
+    Array( 
+        Array( 
+            "ref" => "SOAP-ENC:arrayType",
+            "wsdl:arrayType" => "tns:sanzione[]"
+        )
+    ),
+    "tns:sanzione"
+);
 $server->wsdl->addComplexType(
     'strArray','complexType','array','',
     'SOAP-ENC:Array',
@@ -423,6 +474,42 @@ $server->register('aggiungiProgetto',
     'rpc',
     'encoded',
     'Metodo che aggiunge ad una istanza di pratica edilizia i dati relativi al Progetto'
+);
+
+$server->register('aggiungiSanzione',
+    Array(
+        "pratica"=>"xsd:int",
+        "sanzione" => "tns:sanzione"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
+        "id"=>"xsd:int",
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#addSanzione',
+    'rpc',
+    'encoded',
+    'Metodo che aggiunge ad una istanza di pratica edilizia i dati relativi ad una sanzione'
+);
+
+$server->register('aggiungiOneri',
+    Array(
+        "pratica"=>"xsd:int",
+        "sanzione" => "tns:oneri"
+    ),
+    Array(
+        "success"=>"xsd:int",
+        "message"=>"tns:strArray",
+        "errors" =>"tns:strArray" ,
+        "id"=>"xsd:int",
+    ),
+    'urn:praticaweb',
+    'urn:praticaweb#addOneri',
+    'rpc',
+    'encoded',
+    'Metodo che aggiunge ad una istanza di pratica edilizia i dati relativi agli Oneri'
 );
 
 $server->register('trovaProcedimento',
@@ -794,6 +881,32 @@ function aggiungiProgetto($pratica,$progetto){
     return $result;
 }
 function rimuoviProgetto($id){
+    $result=Array();
+    return $result;
+}
+
+/*----------------------------------------------------------------------------*/
+/*                    Sanzioni                                                */
+/*----------------------------------------------------------------------------*/
+function aggiungiSanzione($pratica,$sanzione){
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->aggiungiRecord($pratica, $sanzione, "sanzioni");
+    return $result;
+}
+function rimuoviSanzione($id){
+    $result=Array();
+    return $result;
+}
+
+/*----------------------------------------------------------------------------*/
+/*                    Progetto                                                */
+/*----------------------------------------------------------------------------*/
+function aggiungiOneri($pratica,$oneri){
+    $ws = new wsApp(DSN,$pratica);
+    $result = $ws->aggiungiRecord($pratica, $oneri, "oneri");
+    return $result;
+}
+function rimuoviOneri($id){
     $result=Array();
     return $result;
 }

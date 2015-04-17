@@ -68,7 +68,7 @@ class ws {
         
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
-            $data[$key]=($d[$key])?($d[$key]):(null);
+            $data[$key]=($d[$key])?(utf8_encode($d[$key])):(null);
         }
         
         $sql = $this->createQuery($this->projectParams[$table]["table"]);
@@ -93,7 +93,7 @@ class ws {
         //$this->debug($this->debugDir.strtoupper($table).".debug", $d);
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
-            $data[$key]=($d[$key])?($d[$key]):(null);
+            $data[$key]=($d[$key])?(utf8_encode($d[$key])):(null);
         }
         $data["pratica"] = $pr;
         

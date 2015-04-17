@@ -138,6 +138,28 @@ class wsApp extends ws{
                 "table"=> "progetto",
                 "schema"=>"pe",
                 "sequence"=>"pe.progetto_id_seq"
+            ),
+            "sanzioni"=>Array(
+                "fields"=>Array(
+                    "pratica","importo","quietanza","data_pagamento","note"
+                ),
+                "params"=>Array(
+                    "importo","quietanza","data_pagamento","note"
+                ),
+                "table"=> "sanzioni",
+                "schema"=>"pe",
+                "sequence"=>"pe.sanzioni_id_seq"
+            ),
+            "oneri"=>Array(
+                "fields"=>Array(
+                    "pratica","totale","quietanza","data"
+                ),
+                "params"=>Array(
+                    "totale","quietanza","data"
+                ),
+                "table"=> "totali",
+                "schema"=>"oneri",
+                "sequence"=>"oneri.totali_id_seq"
             )
         );
         $this->init();
