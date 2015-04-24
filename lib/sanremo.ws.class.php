@@ -165,7 +165,7 @@ class wsApp extends ws{
         $this->init();
     }
     function init(){
-        $dir = Array("data","savona","pe","praticaweb","documenti","pe");
+        $dir = Array("data","sanremo","pe","praticaweb","documenti","pe");
         $this->baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
         
         if ($this->pratica){
@@ -190,3 +190,5 @@ class wsApp extends ws{
         
     }
 }
+
+

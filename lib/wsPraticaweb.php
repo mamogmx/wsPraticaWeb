@@ -3,7 +3,7 @@ require_once DIR."lib/nusoap/nusoap.php";
 
 $server = new nusoap_server; 
 $server->soap_defencoding = 'UTF-8';
-$server->configureWSDL('praticaweb', 'http://webservice.gisweb.it/wspraticaweb/savona.wsPraticaweb.php?wsdl');
+$server->configureWSDL('praticaweb', SERVICE_URL);
 
 $server->wsdl->addComplexType('elemento','complexType','struct','all','',Array(
     "value"=>Array("name"=>"value","type"=>"xsd:int"),
@@ -43,6 +43,7 @@ $server->wsdl->addComplexType('procedimento','complexType','struct','all','',Arr
     "resp_ia" => Array("name"=>"resp_ia","type"=>"xsd:string"),
     "resp_it" => Array("name"=>"resp_it","type"=>"xsd:string"),
     "resp_proc" => Array("name"=>"resp_proc","type"=>"xsd:string"),
+    "resp_uo" => Array("name"=>"resp_uo","type"=>"xsd:string"),
     "riduzione_diritti" => Array("name"=>"riduzione_diritti","type"=>"xsd:string"),
     "rif_aut_amb" => Array("name"=>"rif_aut_amb","type"=>"xsd:string"),
     "riferimento" => Array("name"=>"riferimento","type"=>"xsd:string"),
@@ -679,7 +680,7 @@ $server->register('infoIndirizzi',
     'Metodo che restituisce informazioni sulle ubicazioni'
 );
 //require_once DIR.'lib/wsFunction.savona.php';
-require_once "../config/savona.config.php";
+//require_once "../config/savona.config.php";
 require_once DIR."lib/utils.php";
 
 

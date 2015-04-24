@@ -1,7 +1,7 @@
 <?php
 $info = pathinfo(__FILE__);
 $dsn="pgsql:host=192.168.1.134;port=5433;dbname=gw_sanremo;user=postgres;password=postgres";
-
+define('SERVICE_URL','http://webservice.gisweb.vmserver/wspraticaweb/sanremo.wsPraticaweb.php?wsdl');
 define('DIR',dirname($info['dirname']).DIRECTORY_SEPARATOR);
 define('LIB',DIR."lib".DIRECTORY_SEPARATOR);
 define('LIBWSDL',LIB."php-wsdl".DIRECTORY_SEPARATOR);

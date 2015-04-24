@@ -10,11 +10,11 @@ class wsApp extends ws{
                 "fields"=>Array(
                     "tipo","intervento","oggetto","note",
                     "data_presentazione","protocollo",
-                    "data_prot","resp_proc","resp_uo","online"
+                    "data_prot","resp_proc","online"
                 ),
                 "params"=>Array("tipo","intervento","oggetto","note",
                     "data_presentazione","protocollo","data_prot",
-                    "resp_proc","resp_uo","online"
+                    "resp_proc","online"
                 ),
                 "table"=>"avvioproc",
                 "schema" => "pe",
@@ -165,7 +165,7 @@ class wsApp extends ws{
         $this->init();
     }
     function init(){
-        $dir = Array("data","savona","pe","praticaweb","documenti","pe");
+        $dir = Array("data","pieveligure","pe","praticaweb","documenti","pe");
         $this->baseDir = DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$dir).DIRECTORY_SEPARATOR;
         
         if ($this->pratica){

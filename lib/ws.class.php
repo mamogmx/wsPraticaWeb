@@ -64,7 +64,7 @@ class ws {
     function aggiungiPratica($d){
         $table = "avvioproc";
         $tstart=  microtime();
-        //self::debug(self::debugDir."PARAMS.debug",self::$projectParams);
+        self::debug($this->debugDir."PARAMS.debug",$this->projectParams);
         
         $params = $this->projectParams[$table]["params"];
         foreach($params as $key){
